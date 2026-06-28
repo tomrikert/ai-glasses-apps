@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=600, height=600, initial-scale=1.0, user-scalable=no">
+  <meta name="mrbd-web-app-capable" content="yes">
+  <meta name="description" content="Gmail for Meta Ray-Ban Display glasses — view, archive, delete and reply to emails hands-free">
+  <title>Gmail</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ── AUTH ── -->
+  <div id="screen-auth" class="screen active" role="main" aria-label="Sign in">
+    <header class="hdr">
+      <span class="hdr-icon">✉</span>
+      <h1>Gmail</h1>
+    </header>
+    <div class="body center">
+      <div id="auth-loading">
+        <div class="spinner"></div>
+        <p class="dim">Connecting…</p>
+      </div>
+      <div id="auth-code-view" class="hidden">
+        <p class="label">On your phone, visit:</p>
+        <p class="code-url">google.com/device</p>
+        <p class="label">Enter this code:</p>
+        <p id="user-code" class="device-code">——</p>
+        <p id="auth-expires" class="dim"></p>
+      </div>
+      <div id="auth-error-view" class="hidden">
+        <p id="auth-error-msg" class="error-text">Sign-in failed.</p>
+        <button class="focusable primary" data-action="retry-auth" tabindex="0">Try Again</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── INBOX ── -->
+  <div id="screen-inbox" class="screen" role="main" aria-label="Inbox">
+    <header class="hdr">
+      <h1>Inbox</h1>
+      <span class="hdr-badge hidden" id="inbox-badge"></span>
+    </header>
+    <ul class="scroll-list" id="email-list" role="list"></ul>
+    <nav class="nav-bar">
+      <button class="focusable" data-action="refresh-inbox" tabindex="0">↺ Refresh</button>
+      <button class="focusable" data-action="sign-out" tabindex="0">Sign Out</button>
+    </nav>
+  </div>
+
+  <!-- ── EMAIL DETAIL ── -->
+  <div id="screen-detail" class="screen" role="main" aria-label="Email">
+    <header class="hdr">
+      <h2 id="detail-from" class="hdr-from">—</h2>
+      <span id="detail-date" class="hdr-date">—</span>
+    </header>
+    <div id="detail-subject" class="detail-subject">—</div>
+    <div id="detail-body" class="detail-body" role="article">—</div>
+    <nav class="nav-bar">
+      <button class="focusable" data-action="back" tabindex="0">← Back</button>
+      <button class="focusable primary" data-action="reply" tabindex="0">↩ Reply</button>
+      <button class="focusable" data-action="archive" tabindex="0">Archive</button>
+      <button class="focusable danger" data-action="delete" tabindex="0">Delete</button>
+    </nav>
+  </div>
+
+  <!-- ── REPLY (suggestions) ── -->
+  <div id="screen-reply" class="screen" role="main" aria-label="Choose reply">
+    <header class="hdr">
+      <h1>Reply</h1>
+      <span id="reply-to-label" class="hdr-date">—</span>
+    </header>
+    <ul class="scroll-list" id="reply-list" role="list"></ul>
+    <nav class="nav-bar">
+      <button class="focusable" data-action="back" tabindex="0">← Cancel</button>
+      <button class="focusable accent" data-action="voice-reply" tabindex="0">🎤 Voice</button>
+    </nav>
+  </div>
+
+  <!-- ── VOICE ── -->
+  <div id="screen-voice" class="screen" role="main" aria-label="Voice reply">
+    <header class="hdr"><h1>Listening…</h1></header>
+    <div class="body center">
+      <div class="mic-ring">🎤</div>
+      <p id="voice-transcript" class="transcript"></p>
+    </div>
+    <nav class="nav-bar">
+      <button class="focusable" data-action="cancel-voice" tabindex="0">← Cancel</button>
+      <button class="focusable primary hidden" id="send-voice-btn" data-action="send-voice" tabindex="0">Send ↗</button>
+    </nav>
+  </div>
+
+  <!-- ── CONFIRM ── -->
+  <div id="screen-confirm" class="screen" role="main" aria-label="Confirm action">
+    <header class="hdr"><h1 id="confirm-title">Confirm</h1></header>
+    <div class="body center">
+      <p id="confirm-msg" class="confirm-msg">Are you sure?</p>
+    </div>
+    <nav class="nav-bar">
+      <button class="focusable" data-action="confirm-no" tabindex="0">← Cancel</button>
+      <button class="focusable danger" data-action="confirm-yes" tabindex="0">Yes, proceed</button>
+    </nav>
+  </div>
+
+  <!-- ── TOAST ── -->
+  <div id="toast" class="toast hidden" role="alert" aria-live="assertive"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
