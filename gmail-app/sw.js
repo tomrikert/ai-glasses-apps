@@ -1,7 +1,9 @@
 // Service Worker — Gmail for Meta Ray-Ban Display Glasses
 // Cache-first for app shell, network-first for Gmail API
 const CACHE = 'gmail-glasses-v1';
-const SHELL  = ['/', '/index.html', '/style.css', '/app.js'];
+// Relative paths so the app works whether served from a domain root or a
+// GitHub Pages subpath (e.g. /ai-glasses-apps/). Resolved against sw.js's URL.
+const SHELL  = ['./', './index.html', './style.css', './app.js'];
 
 self.addEventListener('install', e =>
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()))
