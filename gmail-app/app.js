@@ -98,8 +98,12 @@ const Auth = {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({ client_id: CONFIG.GOOGLE_CLIENT_ID, scope: CONFIG.SCOPES }),
       });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      data = await res.json();
+      data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        // Surface Google's real reason (e.g. invalid_scope, invalid_client)
+        // instead of a bare status code, so failures are diagnosable.
+        throw new Error(data.error_description || data.error || `HTTP ${res.status}`);
+      }
     } catch (e) {
       onError(`Could not start sign-in: ${e.message}`);
       return;
