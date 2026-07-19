@@ -1,0 +1,49 @@
+name: Deploy Gmail glasses app to GitHub Pages
+
+# Publishes gmail-app/ to GitHub Pages on every push to the feature branch.
+# The site root is the contents of gmail-app/, so the live URL is:
+#   https://tomrikert.github.io/ai-glasses-apps/
+on:
+  push:
+    branches: [claude/gmail-meta-rayban-app-nwj3d1]
+    paths:
+      - 'gmail-app/**'
+      - '.github/workflows/deploy-pages.yml'
+  workflow_dispatch:
+
+# Allow the workflow to enable Pages and publish via OIDC.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deploy at a time; let an in-progress run finish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        # enablement: true turns Pages on for the repo if it isn't already,
+        # so no manual Settings toggle is needed.
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Upload app as Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./gmail-app
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
