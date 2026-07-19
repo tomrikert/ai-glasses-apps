@@ -10,7 +10,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 const CONFIG = {
-  GOOGLE_CLIENT_ID: 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com',
+  GOOGLE_CLIENT_ID: '21492833946-r6oli4hkq02b0s7ia6an5ubt3iqdro2k.apps.googleusercontent.com',
   SCOPES: 'https://www.googleapis.com/auth/gmail.modify',
   DEVICE_CODE_URL: 'https://oauth2.googleapis.com/device/code',
   TOKEN_URL: 'https://oauth2.googleapis.com/token',
